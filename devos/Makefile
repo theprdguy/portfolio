@@ -3,35 +3,37 @@ SHELL := /bin/bash
 BASE_REF ?= origin/main
 CMD ?= ""
 
-.PHONY: help setup dev lint format test typecheck e2e clean status queue questions contract-check pr-check kickoff triage run
+.PHONY: help setup dev lint format test typecheck e2e build clean status queue questions contract-check pr-check kickoff triage run
 
 help: ## Show available commands
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS=":.*?## "}; {printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
 
-setup: ## Project setup (placeholder). Replace with real install commands later.
-	@echo "TODO: wire setup once stack is chosen."
-	@echo "Examples: pnpm i | npm i | pip install -r requirements.txt | uv sync"
+setup: ## Install dependencies for apps/web
+	@cd ../apps/web && npm install
 
-dev: ## Run dev server (placeholder). Use CMD="..." to run actual command
-	@if [ -n "$(CMD)" ]; then echo "Running: $(CMD)"; eval "$(CMD)"; else echo "TODO: make dev CMD='pnpm dev'"; fi
+dev: ## Run Next.js dev server
+	@cd ../apps/web && npm run dev
 
-lint: ## Run linter (placeholder). Use CMD="..."
-	@if [ -n "$(CMD)" ]; then eval "$(CMD)"; else echo "TODO: make lint CMD='pnpm lint'"; fi
+lint: ## Run ESLint
+	@cd ../apps/web && npm run lint
 
-format: ## Run formatter (placeholder). Use CMD="..."
-	@if [ -n "$(CMD)" ]; then eval "$(CMD)"; else echo "TODO: make format CMD='pnpm format'"; fi
+format: ## Run formatter (placeholder)
+	@echo "TODO: add formatter"
 
-test: ## Run tests (placeholder). Use CMD="..."
-	@if [ -n "$(CMD)" ]; then eval "$(CMD)"; else echo "TODO: make test CMD='pnpm test'"; fi
+test: ## Run tests (placeholder)
+	@echo "TODO: add tests"
 
-typecheck: ## Run typecheck (placeholder). Use CMD="..."
-	@if [ -n "$(CMD)" ]; then eval "$(CMD)"; else echo "TODO: make typecheck CMD='pnpm typecheck'"; fi
+typecheck: ## Run TypeScript check
+	@cd ../apps/web && npm run build
 
-e2e: ## Run e2e tests (placeholder). Use CMD="..."
-	@if [ -n "$(CMD)" ]; then eval "$(CMD)"; else echo "TODO: make e2e CMD='pnpm e2e'"; fi
+e2e: ## Run e2e tests (placeholder)
+	@echo "TODO: add e2e tests"
 
-clean: ## Clean artifacts (placeholder)
-	@echo "TODO: clean caches/build outputs"
+build: ## Build Next.js for production
+	@cd ../apps/web && npm run build
+
+clean: ## Clean build artifacts
+	@rm -rf ../apps/web/.next ../apps/web/out ../apps/web/node_modules/.cache
 
 status: ## Quick status (git + SSOT pointers)
 	@echo "== git =="

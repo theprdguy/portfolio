@@ -1,4 +1,4 @@
-sprint_goal: "Bootstrap a reusable multi-LLM vibe-coding OS (SSOT + Make + A-Mode)"
+sprint_goal: "Portfolio v1.0 - 프로젝트 갤러리 + Medium 글 카드 (theprdguy.github.io)"
 
 defaults:
   verify:
@@ -6,7 +6,7 @@ defaults:
 
 tickets:
   - id: T-000
-    status: todo
+    status: done
     owner: CLAUDE
     goal: "Bootstrap repo skeleton + SSOT files + make interface"
     dod:
@@ -32,7 +32,7 @@ tickets:
     deps: []
 
   - id: T-001
-    status: todo
+    status: done
     owner: CLAUDE
     goal: "Run session-start triage routine (A-Mode) and refine rules"
     dod:
@@ -49,9 +49,9 @@ tickets:
     deps: ["T-000"]
 
   - id: T-010
-    status: parked
+    status: cancelled
     owner: GEMINI
-    goal: "(When project chosen) Create UI skeleton with global states + mock-first"
+    goal: "(Superseded by T-100~T-103) Create UI skeleton with global states + mock-first"
     dod:
       - "loading/empty/error/success implemented"
       - "mock data matches API contract examples"
@@ -64,9 +64,9 @@ tickets:
     deps: ["T-000"]
 
   - id: T-020
-    status: parked
+    status: cancelled
     owner: CODEX
-    goal: "(When project chosen) Create API skeleton matching API contract + tests"
+    goal: "(Not needed - static site) Create API skeleton matching API contract + tests"
     dod:
       - "endpoints exist per API contract"
       - "error format matches contract"
@@ -77,3 +77,107 @@ tickets:
       - "make pr-check"
     contract_impact: api
     deps: ["T-000"]
+
+  - id: T-100
+    status: done
+    owner: GEMINI
+    goal: "Next.js + Tailwind 프로젝트 초기화 (apps/web)"
+    dod:
+      - "Next.js 14+ App Router 프로젝트 생성"
+      - "Tailwind CSS 설정"
+      - "Static Export 설정 (next.config.ts)"
+      - "npm run dev 작동"
+    files:
+      - "apps/web/**"
+    verify:
+      - "cd apps/web && npm run build"
+    contract_impact: ui
+    deps: []
+
+  - id: T-101
+    status: done
+    owner: GEMINI
+    goal: "기본 레이아웃 + Hero 섹션 구현"
+    dod:
+      - "Header 컴포넌트 구현"
+      - "Footer 컴포넌트 구현"
+      - "Hero 섹션 구현"
+      - "반응형 레이아웃"
+    files:
+      - "apps/web/src/app/**"
+      - "apps/web/src/components/Header.tsx"
+      - "apps/web/src/components/Footer.tsx"
+      - "apps/web/src/components/Hero.tsx"
+    verify:
+      - "cd apps/web && npm run lint"
+      - "cd apps/web && npm run build"
+    contract_impact: ui
+    deps: ["T-100"]
+
+  - id: T-102
+    status: done
+    owner: GEMINI
+    goal: "ProjectCard + ProjectGallery 컴포넌트 구현"
+    dod:
+      - "ProjectCard 컴포넌트 (이미지, 제목, 설명, 태그, 링크)"
+      - "ProjectGallery 반응형 그리드"
+      - "샘플 프로젝트 데이터"
+    files:
+      - "apps/web/src/components/ProjectCard.tsx"
+      - "apps/web/src/components/ProjectGallery.tsx"
+      - "apps/web/src/data/projects.ts"
+      - "apps/web/src/types/index.ts"
+    verify:
+      - "cd apps/web && npm run lint"
+      - "cd apps/web && npm run build"
+    contract_impact: ui
+    deps: ["T-101"]
+
+  - id: T-103
+    status: done
+    owner: GEMINI
+    goal: "MediumCard + MediumSection 컴포넌트 구현"
+    dod:
+      - "MediumCard 컴포넌트 (제목, 설명, 날짜, 링크)"
+      - "MediumSection 반응형 그리드"
+      - "샘플 Article 데이터"
+    files:
+      - "apps/web/src/components/MediumCard.tsx"
+      - "apps/web/src/components/MediumSection.tsx"
+      - "apps/web/src/data/articles.ts"
+    verify:
+      - "cd apps/web && npm run lint"
+      - "cd apps/web && npm run build"
+    contract_impact: ui
+    deps: ["T-101"]
+
+  - id: T-104
+    status: done
+    owner: CLAUDE
+    goal: "GitHub Actions 배포 워크플로우 설정"
+    dod:
+      - ".github/workflows/deploy.yml 생성"
+      - "main 브랜치 push 시 자동 배포"
+      - "GitHub Pages 설정"
+    files:
+      - ".github/workflows/deploy.yml"
+    verify:
+      - "test -f .github/workflows/deploy.yml"
+    contract_impact: none
+    deps: ["T-100"]
+
+  - id: T-105
+    status: done
+    owner: CLAUDE
+    goal: "Makefile 명령어 연동 (dev, build, lint)"
+    dod:
+      - "make setup → npm install"
+      - "make dev → npm run dev"
+      - "make build → npm run build"
+      - "make lint → npm run lint"
+    files:
+      - "Makefile"
+    verify:
+      - "make help"
+    contract_impact: none
+    deps: ["T-100"]
