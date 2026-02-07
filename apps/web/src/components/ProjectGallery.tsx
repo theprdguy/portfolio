@@ -1,5 +1,6 @@
-import { Project } from '@/types';
-import ProjectCard from './ProjectCard';
+import { Project } from "@/types";
+import ProjectCard from "./ProjectCard";
+import ScrollReveal from "./ScrollReveal";
 
 interface ProjectGalleryProps {
   projects: Project[];
@@ -7,27 +8,26 @@ interface ProjectGalleryProps {
 
 export default function ProjectGallery({ projects }: ProjectGalleryProps) {
   return (
-    <section id="projects" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900/50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Projects
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            A selection of projects I&apos;ve built and contributed to.
-          </p>
-        </div>
+    <section id="projects" className="py-16 md:py-24" aria-label="Selected projects">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ScrollReveal>
+          <div className="mb-16">
+            <p className="font-sans text-xs uppercase tracking-[0.3em] text-accent mb-4">
+              Selected Work
+            </p>
+            <h2 className="font-serif text-4xl sm:text-5xl tracking-tight text-foreground mb-6">
+              Projects
+            </h2>
+            <div className="w-[60px] h-px bg-accent" />
+          </div>
+        </ScrollReveal>
 
         {projects.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 dark:text-gray-400">
-              No projects yet.
-            </p>
-          </div>
+          <p className="text-muted font-sans font-light">No projects yet.</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+          <div className="space-y-24 md:space-y-32">
+            {projects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
         )}
